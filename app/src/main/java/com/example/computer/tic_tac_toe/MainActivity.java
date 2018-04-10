@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvPlayer1 = (TextView)findViewById(R.id.tvPlayerOne);
         tvPlayer2 = (TextView)findViewById(R.id.tvPlayerTwo);
 
+//        Loop through the play-board
         for (int i=0; i<3; i++)
         {
             for (int j=0; j<3; j++)
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttons[i][j].setOnClickListener(this);
             }
         }
+//        Button to reset the game
 
         Button btnReset = (Button)findViewById(R.id.btnReset);
         btnReset.setOnClickListener(new View.OnClickListener() {
@@ -57,15 +59,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!((Button) v).getText().toString().equals("")){
             return;
         }
+//        If is player one turn set the square board to x
         if (playerOneTurn){
             ((Button) v).setText("x");
         }
+//        If player two set it to "o"
         else {
             ((Button) v).setText("o");
         }
 
+//        Increment the round count
         count++;
 
+//        Check and return the winner
         if (checkWinner()){
             if (playerOneTurn){
                 playerOneWins();
@@ -74,16 +80,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 playerTwoWins();
             }
         }
+//        Return a draw if there is no winner
         else if (count == 9){
                 draw();
         }
 
+//        Else toggle player one turn
         else {
             playerOneTurn =! playerOneTurn;
         }
 
     }
 
+//    Function to Check and return winner or a draw
     private boolean checkWinner(){
         String[][] field = new String[3][3];
 
@@ -128,24 +137,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
+//    Function to display player one as winner with the score points
     private void playerOneWins(){
         playerOneScore++;
 
         Toast.makeText(getApplicationContext(),"Player One Wins",Toast.LENGTH_LONG).show();
 
+//        Update the score points for player two
         updatePointText();
+
+//        Reset the board
         resetBoard();
     }
 
+    //    Function to display player two as winner with the score points
     private void playerTwoWins() {
         playerTwoScore++;
 
         Toast.makeText(getApplicationContext(),"Player Two Wins",Toast.LENGTH_LONG).show();
 
+//        Update the score points for player two
         updatePointText();
         resetBoard();
     }
 
+//    Function to return a draw
     private void draw() {
 
         Toast.makeText(getApplicationContext(),"Draw", Toast.LENGTH_LONG).show();
@@ -158,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvPlayer2.setText("Player 2: "+playerTwoScore);
     }
 
+//    Function to reset the board
     private void resetBoard(){
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
@@ -168,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         playerOneTurn = true;
     }
 
+//    Function to reset the game
     private void resetGame(){
         playerOneScore = 0;
         playerTwoScore = 0;
@@ -176,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resetBoard();
     }
 
+//    Save the game state when the device's screen is rotated
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
